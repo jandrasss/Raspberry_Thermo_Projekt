@@ -3,3 +3,4 @@ def kiir(szoveg):
 
 
 kiir("Szia")
+kiir("Hello")
