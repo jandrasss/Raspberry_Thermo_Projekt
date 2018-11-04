@@ -2,5 +2,6 @@ def kiir(szoveg):
     print(szoveg)
 
 
-kiir("Szia")
-kiir("Hello")
+kiir("Egy")
+kiir("Kettő")
+kiir("Három")
