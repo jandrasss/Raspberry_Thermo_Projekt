@@ -5,3 +5,4 @@ def kiir(szoveg):
 kiir("Egy")
 kiir("Kettő")
 kiir("Három")
+kiir("Négy")
