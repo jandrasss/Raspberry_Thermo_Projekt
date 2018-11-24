@@ -46,7 +46,7 @@ conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 # for i in conf.infraSensors:
 #     print(i.id,": ", i.pin)
 for i in conf.tempSensors:
-    print(i.id,": ", i.id)
+    print(i.id,": ", i.getTemp())
 
 
 class MyMQTTClass(mqtt.Client):
