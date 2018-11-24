@@ -25,7 +25,7 @@ class TemperatureSensors:
         return "Success"
 
     def updateTemp(self):
-        self.lastTemp = self.sensor.get_temperature()
+        self.temp = self.sensor.get_temperature()
         time.sleep(5)
 
 class RelaySensors:
@@ -45,8 +45,8 @@ class Controller(object):
 conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 # for i in conf.infraSensors:
 #     print(i.id,": ", i.pin)
-for i in conf.tempSensors:
-    print(i.sysbus,": ", i.getTemp())
+# for i in conf.tempSensors:
+#     print(i.sysbus,": ", i.getTemp())
 
 
 class MyMQTTClass(mqtt.Client):
