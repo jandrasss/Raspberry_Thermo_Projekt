@@ -15,7 +15,7 @@ class TemperatureSensors:
         #self.precision = 10
         self.sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, config['sysbus'][3:])
         self.temp = 0
-        thread = threading.Thread(target=self.run, args==())
+        thread = threading.Thread(target=self.run, args=())
         thread.daemon = True
         thread.start()
 
