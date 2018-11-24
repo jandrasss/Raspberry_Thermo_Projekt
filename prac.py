@@ -40,7 +40,7 @@ class Controller(object):
 
 
 
-conf = Controller(json.load(open("set.json",'r')))
+conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 # for i in conf.infraSensors:
 #     print(i.id,": ", i.pin)
 for i in conf.tempSensors:
