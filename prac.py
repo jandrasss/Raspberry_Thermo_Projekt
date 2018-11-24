@@ -1,6 +1,7 @@
 import paho.mqtt.client as mqtt
 import time
 import json
+import threading
 import RPi.GPIO as GPIO
 import twisted
 from w1thermsensor import W1ThermSensor
@@ -10,10 +11,12 @@ class TemperatureSensors:
     def __init__(self, id, config):
         self.id = id
         self.sysbus = config['sysbus']
-        self.precision = 10
+        #self.precision = 10
         self.sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, config['sysbus'][3:])
-        self.temp = self.getTemp()
-        self.sensor.set_precision(self.precision)
+        self.temp = 0
+
+        #self.sensor.set_precision(self.precision)
+        threading.Thread(target=self.updateTemp()).start()
 
     def getTemp(self):
         return self.sensor.get_temperature()
@@ -21,6 +24,9 @@ class TemperatureSensors:
     def writeLog(self):
         return "Success"
 
+    def updateTemp(self):
+        self.lastTemp = self.sensor.get_temperature()
+        time.sleep(5)
 
 class RelaySensors:
     def __init__(self,id, config):
@@ -74,5 +80,6 @@ MyMQTTClass().run()
 while True:
 
     print('Hajra hajra')
-
+    for i in conf.tempSensors:
+        print(i.sysbus, ": ", i.temp())
     time.sleep(1)
