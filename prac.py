@@ -15,8 +15,8 @@ class TemperatureSensors:
         temp = 0
 
     def getTemp(self):
-        self.sensor.get_temperature()
-        return "temp"
+        return self.sensor.get_temperature()
+
 
 
     def writeLog(self):
@@ -75,11 +75,11 @@ class MyMQTTClass(mqtt.Client):
 
 MyMQTTClass().run()
 
-for sensor in W1ThermSensor.get_available_sensors():
-    print("Sensor %s has temperature %.2f" % (sensor.id, sensor.get_temperature()))
+# for sensor in W1ThermSensor.get_available_sensors():
+#     print("Sensor %s has temperature %.2f" % (sensor.id, sensor.get_temperature()))
 while True:
-    s1=W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20,'021317e674aa')
+
     print('Hajra hajra')
 
-    print (s1.get_temperature())
+
     time.sleep(1)
