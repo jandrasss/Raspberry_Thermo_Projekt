@@ -15,9 +15,9 @@ class TemperatureSensors:
         #self.precision = 10
         self.sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, config['sysbus'][3:])
         self.temp = 0
-        thread = threading.Thread(target=self.updateTemp(), daemon=True)
-        # thread.daemon = True
-        # thread.start()
+        thread = threading.Thread(target=self.run, args==())
+        thread.daemon = True
+        thread.start()
 
         #self.sensor.set_precision(self.precision)
 
@@ -27,13 +27,14 @@ class TemperatureSensors:
     def writeLog(self):
         return "Success"
 
-    def updateTemp(self):
+    #def updateTemp(self):
+    def run(self):
         event.wait()
         while event.is_set():
             self.temp = self.sensor.get_temperature()
             print("friss", self.id, threading.active_count())
             threading.main_thread()
-#            time.sleep(5)
+            time.sleep(2)
 
 class RelaySensors:
     def __init__(self,id, config):
