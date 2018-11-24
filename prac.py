@@ -24,9 +24,9 @@ class TemperatureSensors:
         return "Success"
 
     def updateTemp(self):
-        while True:
-            self.temp = self.sensor.get_temperature()
-            print("friss", self.id, threading.active_count())
+        #while True:
+        self.temp = self.sensor.get_temperature()
+        print("friss", self.id, threading.active_count())
 
 #            time.sleep(5)
 
