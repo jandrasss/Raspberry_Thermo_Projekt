@@ -47,10 +47,11 @@ conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 #     print(i.id,": ", i.pin)
 # for i in conf.tempSensors:
 #     print(i.sysbus,": ", i.getTemp())
-
-for i in conf.tempSensors:
-    threading.Thread(target=i.updateTemp())
-
+threads = []
+for i in range(0,conf.tempSensors.__le__()):
+    threads.append(threading.Thread(name=i.id, target=i.updateTemp()))
+    threads[i].setDaemon(True
+                         )
 class MyMQTTClass(mqtt.Client):
 
     def on_connect(self, mqttc, obj, flags, rc):
