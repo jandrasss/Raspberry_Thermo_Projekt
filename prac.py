@@ -26,6 +26,7 @@ class TemperatureSensors:
     def updateTemp(self):
         while True:
             self.temp = self.sensor.get_temperature()
+            print("friss", self.id)
             time.sleep(5)
 
 class RelaySensors:
@@ -49,8 +50,10 @@ conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 #     print(i.sysbus,": ", i.getTemp())
 threads = []
 for i in range(0,conf.tempSensors.__len__()):
+    print(i)
     threads.append(threading.Thread(name=conf.tempSensors[i].id, target=conf.tempSensors[i].updateTemp()))
     threads[i].setDaemon(True)
+    print(i)
 
 class MyMQTTClass(mqtt.Client):
 
