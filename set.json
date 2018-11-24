@@ -1,0 +1,25 @@
+{
+  "TemperatureSensors": {
+    "Egyes": {
+      "id": "Egyes",
+      "sysbus": " "
+    },
+    "Kettes": {
+      "id": "Kettes",
+      "sysbus": " "
+    },
+    "Hármas": {
+      "id:" : "Hármas",
+      "sysbus" : ""
+    },
+    "Négyes": {
+      "id" : "Négyes",
+      "sysbus" : ""
+    },
+    "Ötös":
+    {
+      "id": "Ötös",
+      "sysbus" : ""
+    }
+  }
+}
