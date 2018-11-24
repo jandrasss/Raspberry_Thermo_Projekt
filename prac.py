@@ -53,6 +53,7 @@ for i in range(0,conf.tempSensors.__len__()):
     print(i)
     threads.append(threading.Thread(name=conf.tempSensors[i].id, target=conf.tempSensors[i].updateTemp()))
     threads[i].setDaemon(True)
+    threads[i].start()
     print(i)
 
 class MyMQTTClass(mqtt.Client):
