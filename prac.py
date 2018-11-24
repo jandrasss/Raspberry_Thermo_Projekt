@@ -10,7 +10,7 @@ class TemperatureSensors:
     def __init__(self, id, config):
         self.id = id
         self.sysbus = config['sysbus']
-        self.precision = 5
+        self.precision = 10
         self.sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, config['sysbus'][3:])
         self.temp = self.getTemp()
         self.sensor.set_precision(self.precision)
