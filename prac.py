@@ -5,19 +5,18 @@ import RPi.GPIO as GPIO
 import twisted
 from w1thermsensor import W1ThermSensor
 
+
 class TemperatureSensors:
     def __init__(self, id, config):
         self.id = id
         self.sysbus = config['sysbus']
+        self.precision = 5
         self.sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, config['sysbus'][3:])
-        #self.pin = config['pin']
         self.temp = self.getTemp()
-        temp = 0
+        self.sensor.set_precision(self.precision)
 
     def getTemp(self):
         return self.sensor.get_temperature()
-
-
 
     def writeLog(self):
         return "Success"
@@ -35,11 +34,6 @@ class Controller(object):
         self.config = config
         self.tempSensors = [TemperatureSensors(x, y) for (x, y) in config['TemperatureSensors'].items()]
         #self.infraSensors = [RelaySensors(x, y) for (x, y) in config['RelaySensors'].items()]
-
-
-# with open('set.json', 'w') as configFile:
-#     json.dumps( configFile,  indent=2)
-
 
 
 conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
@@ -80,6 +74,5 @@ MyMQTTClass().run()
 while True:
 
     print('Hajra hajra')
-
 
     time.sleep(1)
