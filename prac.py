@@ -31,7 +31,7 @@ class TemperatureSensors:
         while True:
             self.temp = self.sensor.get_temperature()
             print("friss", self.id, threading.active_count())
-
+            threading.main_thread()
 #            time.sleep(5)
 
 class RelaySensors:
