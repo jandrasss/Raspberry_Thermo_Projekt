@@ -80,6 +80,7 @@ MyMQTTClass().run()
 while True:
 
     print('Hajra hajra')
+    print(time, threading.active_count())
     for i in conf.tempSensors:
         print(i.sysbus, " : ", i.temp)
     time.sleep(1)
