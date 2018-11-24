@@ -1,25 +1,25 @@
 {
   "TemperatureSensors": {
     "Egyes": {
-      "id": "Egyes",
-      "sysbus": " "
+      " id": "Egyes",
+      "sysbus": "28-01131faf14b9"
     },
     "Kettes": {
       "id": "Kettes",
-      "sysbus": " "
+      "sysbus": "28-021317e674aa"
     },
     "Harmas": {
       "id:" : "Harmas",
-      "sysbus" : ""
+      "sysbus" : "28-021317e994aa"
     },
     "Negyes": {
       "id" : "Negyes",
-      "sysbus" : ""
+      "sysbus" : "28-0213186f26aa"
     },
     "Otos":
     {
       "id": "Otos",
-      "sysbus" : ""
+      "sysbus" : "28-0213187987aa"
     }
   }
 }

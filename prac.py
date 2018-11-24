@@ -3,7 +3,7 @@ import time
 import json
 import RPi.GPIO as GPIO
 import twisted
-
+from w1thermsensor import W1ThermSensor
 
 class TemperatureSensors:
     def __init__(self, id, config):
@@ -40,7 +40,7 @@ class Controller(object):
 
 
 
-conf = Controller(json.load(open("set.json",'r',encoding='utf-8'))) 
+conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 # for i in conf.infraSensors:
 #     print(i.id,": ", i.pin)
 for i in conf.tempSensors:
@@ -76,4 +76,6 @@ MyMQTTClass().run()
 
 while True:
     print('Hajra hajra')
+    sensor = W1ThermSensor()
+    print(sensor.get_temperature())
     time.sleep(1)
