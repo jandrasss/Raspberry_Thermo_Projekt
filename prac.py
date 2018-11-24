@@ -48,7 +48,7 @@ conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 # for i in conf.tempSensors:
 #     print(i.sysbus,": ", i.getTemp())
 threads = []
-for i in range(0,conf.tempSensors.__le__()):
+for i in range(0,conf.tempSensors.__len__()):
     threads.append(threading.Thread(name=i.id, target=i.updateTemp()))
     threads[i].setDaemon(True
                          )
