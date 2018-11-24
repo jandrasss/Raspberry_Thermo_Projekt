@@ -9,11 +9,13 @@ class TemperatureSensors:
     def __init__(self, id, config):
         self.id = id
         self.sysbus = config['sysbus']
+        self.sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, config['sysbus'][2:])
         #self.pin = config['pin']
         self.temp = self.getTemp()
         temp = 0
 
     def getTemp(self):
+        self.sensor.get_temperature()
         return "temp"
 
 
@@ -76,6 +78,5 @@ MyMQTTClass().run()
 
 while True:
     print('Hajra hajra')
-    sensor = W1ThermSensor()
-    print(sensor.get_temperature())
+
     time.sleep(1)
