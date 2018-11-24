@@ -15,7 +15,7 @@ class TemperatureSensors:
         #self.precision = 10
         self.sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, config['sysbus'][3:])
         self.temp = 0
-        self.stopped =
+
         #self.sensor.set_precision(self.precision)
 
     def getTemp(self):
