@@ -28,7 +28,7 @@ class TemperatureSensors:
             self.temp = self.sensor.get_temperature()
             print("friss", self.id, threading.active_count())
 
-            time.sleep(5)
+#            time.sleep(5)
 
 class RelaySensors:
     def __init__(self,id, config):
