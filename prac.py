@@ -16,8 +16,8 @@ class TemperatureSensors:
         self.sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, config['sysbus'][3:])
         self.temp = 0
         thread = threading.Thread(target=self.updateTemp(), daemon=True)
-        thread.daemon = True
-        thread.start()
+        # thread.daemon = True
+        # thread.start()
 
         #self.sensor.set_precision(self.precision)
 
@@ -28,7 +28,8 @@ class TemperatureSensors:
         return "Success"
 
     def updateTemp(self):
-        while True:
+        event.wait()
+        while event.is_set():
             self.temp = self.sensor.get_temperature()
             print("friss", self.id, threading.active_count())
             threading.main_thread()
@@ -52,6 +53,7 @@ def flag():
     print('Homerseklet frisssites inditasa')
     event.set()
 
+event=threading.Event()
 conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 # for i in conf.infraSensors:
 #     print(i.id,": ", i.pin)
@@ -86,6 +88,7 @@ MyMQTTClass().run()
 
 # for sensor in W1ThermSensor.get_available_sensors():
 #     print("Sensor %s has temperature %.2f" % (sensor.id, sensor.get_temperature()))
+flag()
 while True:
 
     print('Hajra  hajra')
