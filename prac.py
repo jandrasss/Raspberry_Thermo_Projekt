@@ -81,5 +81,5 @@ while True:
 
     print('Hajra hajra')
     for i in conf.tempSensors:
-        print(i.sysbus, ": ", i.temp)
+        print(i.sysbus, " : ", i.temp)
     time.sleep(1)
