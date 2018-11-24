@@ -16,7 +16,6 @@ class TemperatureSensors:
         self.temp = 0
 
         #self.sensor.set_precision(self.precision)
-        threading.Thread(name=self.id, target=self.updateTemp()).start()
 
     def getTemp(self):
         return self.sensor.get_temperature()
@@ -49,6 +48,8 @@ conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 # for i in conf.tempSensors:
 #     print(i.sysbus,": ", i.getTemp())
 
+for i in conf.tempSensors:
+    threading.Thread(target=i.updateTemp())
 
 class MyMQTTClass(mqtt.Client):
 
