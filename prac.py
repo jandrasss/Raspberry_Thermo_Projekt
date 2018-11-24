@@ -15,6 +15,9 @@ class TemperatureSensors:
         #self.precision = 10
         self.sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, config['sysbus'][3:])
         self.temp = 0
+        thread = threading.Thread(target=self.updateTemp())
+        thread.daemon = True
+        thread.start()
 
         #self.sensor.set_precision(self.precision)
 
@@ -54,13 +57,6 @@ conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 #     print(i.id,": ", i.pin)
 # for i in conf.tempSensors:
 #     print(i.sysbus,": ", i.getTemp())
-threads = []
-event=threading.Event()
-for i in range(0,conf.tempSensors.__len__()):
-    print(i)
-    threads.append(threading.Thread(target=conf.tempSensors[i].updateTemp()))
-    threads[i].start()
-    print(i)
 
 class MyMQTTClass(mqtt.Client):
 
