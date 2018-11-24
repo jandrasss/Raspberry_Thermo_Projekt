@@ -16,7 +16,7 @@ class TemperatureSensors:
         self.temp = 0
 
         #self.sensor.set_precision(self.precision)
-        threading.Thread(target=self.updateTemp()).start()
+        threading.Thread(name=self.id, target=self.updateTemp()).start()
 
     def getTemp(self):
         return self.sensor.get_temperature()
@@ -25,8 +25,9 @@ class TemperatureSensors:
         return "Success"
 
     def updateTemp(self):
-        self.temp = self.sensor.get_temperature()
-        time.sleep(5)
+        while True:
+            self.temp = self.sensor.get_temperature()
+            time.sleep(5)
 
 class RelaySensors:
     def __init__(self,id, config):
