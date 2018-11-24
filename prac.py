@@ -52,9 +52,9 @@ conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 threads = []
 for i in range(0,conf.tempSensors.__len__()):
     print(i)
-    threads.append(threading.Thread(name=conf.tempSensors[i].id, target=conf.tempSensors[i].updateTemp()))
-    threads[i].setDaemon(True)
-    threads[i].start()
+    t=threading.Thread(target=conf.tempSensors[i].updateTemp())
+
+    t.start()
     print(i)
 
 class MyMQTTClass(mqtt.Client):
