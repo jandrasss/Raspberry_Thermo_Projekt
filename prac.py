@@ -81,7 +81,7 @@ MyMQTTClass().run()
 #     print("Sensor %s has temperature %.2f" % (sensor.id, sensor.get_temperature()))
 while True:
 
-    print('Hajra hajra')
+    print('Hajra  hajra')
     print(time, threading.active_count())
     for i in conf.tempSensors:
         print(i.sysbus, " : ", i.temp)
