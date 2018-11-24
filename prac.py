@@ -46,7 +46,7 @@ conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 # for i in conf.infraSensors:
 #     print(i.id,": ", i.pin)
 for i in conf.tempSensors:
-    print(i.id,": ", i.getTemp())
+    print(i.sysbus,": ", i.getTemp())
 
 
 class MyMQTTClass(mqtt.Client):
@@ -75,8 +75,11 @@ class MyMQTTClass(mqtt.Client):
 
 MyMQTTClass().run()
 
-
+for sensor in W1ThermSensor.get_available_sensors():
+    print("Sensor %s has temperature %.2f" % (sensor.id, sensor.get_temperature()))
 while True:
+    s1=W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20,'021317e674aa')
     print('Hajra hajra')
 
+    print (s1.get_temperature())
     time.sleep(1)
