@@ -26,7 +26,8 @@ class TemperatureSensors:
     def updateTemp(self):
         while True:
             self.temp = self.sensor.get_temperature()
-            print("friss", self.id)
+            print("friss", self.id, threading.active_count())
+
             time.sleep(5)
 
 class RelaySensors:
