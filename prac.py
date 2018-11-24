@@ -45,6 +45,7 @@ class Controller(object):
         #self.infraSensors = [RelaySensors(x, y) for (x, y) in config['RelaySensors'].items()]
 
 def flag():
+    time.sleep(2)
     print('Homerseklet frisssites inditasa')
     event.set()
 
