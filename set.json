@@ -8,17 +8,17 @@
       "id": "Kettes",
       "sysbus": " "
     },
-    "Hármas": {
-      "id:" : "Hármas",
+    "Harmas": {
+      "id:" : "Harmas",
       "sysbus" : ""
     },
-    "Négyes": {
-      "id" : "Négyes",
+    "Negyes": {
+      "id" : "Negyes",
       "sysbus" : ""
     },
-    "Ötös":
+    "Otos":
     {
-      "id": "Ötös",
+      "id": "Otos",
       "sysbus" : ""
     }
   }

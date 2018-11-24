@@ -40,7 +40,7 @@ class Controller(object):
 
 
 
-conf = Controller(json.load(open("set.json",'r', encoding='utf-8')))
+conf = Controller(json.load(open("set.json",'r')))
 # for i in conf.infraSensors:
 #     print(i.id,": ", i.pin)
 for i in conf.tempSensors:
@@ -75,5 +75,5 @@ MyMQTTClass().run()
 
 
 while True:
-    print('Hajrá hajrá')
+    print('Hajra hajra')
     time.sleep(1)
