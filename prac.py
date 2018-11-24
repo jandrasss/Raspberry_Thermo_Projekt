@@ -2,6 +2,7 @@ import paho.mqtt.client as mqtt
 import time
 import json
 import threading
+import queue
 import RPi.GPIO as GPIO
 import twisted
 from w1thermsensor import W1ThermSensor
@@ -14,7 +15,7 @@ class TemperatureSensors:
         #self.precision = 10
         self.sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, config['sysbus'][3:])
         self.temp = 0
-
+        self.stopped =
         #self.sensor.set_precision(self.precision)
 
     def getTemp(self):
@@ -24,9 +25,9 @@ class TemperatureSensors:
         return "Success"
 
     def updateTemp(self):
-        #while True:
-        self.temp = self.sensor.get_temperature()
-        print("friss", self.id, threading.active_count())
+        while event.is_set():
+            self.temp = self.sensor.get_temperature()
+            print("friss", self.id, threading.active_count())
 
 #            time.sleep(5)
 
@@ -43,6 +44,9 @@ class Controller(object):
         self.tempSensors = [TemperatureSensors(x, y) for (x, y) in config['TemperatureSensors'].items()]
         #self.infraSensors = [RelaySensors(x, y) for (x, y) in config['RelaySensors'].items()]
 
+def flag():
+    print('Homerseklet frisssites inditasa')
+    event.set()
 
 conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 # for i in conf.infraSensors:
@@ -50,11 +54,11 @@ conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 # for i in conf.tempSensors:
 #     print(i.sysbus,": ", i.getTemp())
 threads = []
+event=threading.Event()
 for i in range(0,conf.tempSensors.__len__()):
     print(i)
-    t=threading.Thread(target=conf.tempSensors[i].updateTemp())
-
-    t.start()
+    threads.append(threading.Thread(target=conf.tempSensors[i].updateTemp()))
+    threads[i].start()
     print(i)
 
 class MyMQTTClass(mqtt.Client):
