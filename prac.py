@@ -51,13 +51,9 @@ class Controller(object):
         #self.infraSensors = [RelaySensors(x, y) for (x, y) in config['RelaySensors'].items()]
 
 
-def flag():
-    time.sleep(2)
-    print('Homerseklet frisssites inditasa')
-    event.set()
 
-event=threading.Event()
-conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
+
+
 # for i in conf.infraSensors:
 #     print(i.id,": ", i.pin)
 # for i in conf.tempSensors:
@@ -76,7 +72,7 @@ class MyMQTTClass(mqtt.Client):
 
     def on_subscribe(self, mqttc, obj, mid, granted_qos):
         #print("Subscribed: "+str(mid)+" "+str(granted_qos))
-        pass
+        s.subscribe
 
     def on_log(self, mqttc, obj, level, string):
         print(string)
@@ -89,7 +85,7 @@ class MyMQTTClass(mqtt.Client):
         print("Success")
 
 MyMQTTClass().run()
-
+conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 
 while True:
 
