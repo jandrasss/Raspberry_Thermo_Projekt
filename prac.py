@@ -54,8 +54,6 @@ class Controller(object):
         self.defaultTempUpdateTime = config['Config']['defaultTempUpdateTime']
         self.boilerStartDifference = config['Config']['boilerStartDifference']
         self.tempSensors = [TemperatureSensors(x, y) for (x, y) in config['TemperatureSensors'].items()]
-        #self.infraSensors = [RelaySensors(x, y) for (x, y) in config['RelaySensors'].items()]
-
         self.boilerUpperIndex = 0
         self.boilerLowerIndex = 0
         self.boilerState = False
