@@ -29,13 +29,12 @@ class TemperatureSensors:
         return "Success"
 
     def updateTemp(self):
-        event.wait()
-        while event.is_set():
-            self.temp = self.sensor.get_temperature()
-            print("friss", self.id, threading.active_count())
-            threading.main_thread()
-            MyMQTTClass.publish(self.temp)
-            time.sleep(2)
+
+        self.temp = self.sensor.get_temperature()
+        print("friss", self.id, threading.active_count())
+        threading.main_thread()
+        MyMQTTClass.publish(self.temp)
+        time.sleep(2)
 
 class RelaySensors:
     def __init__(self,id, config):
