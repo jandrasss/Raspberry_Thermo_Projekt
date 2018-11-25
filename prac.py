@@ -36,7 +36,7 @@ class TemperatureSensors:
             print("friss", self.id, threading.active_count())
             threading.main_thread()
             broker.publish(self.id, self.temp)
-            time.sleep(4)
+            # time.sleep(4)
 
 
 class RelaySensors:
@@ -67,10 +67,12 @@ class MyMQTTClass(mqtt.Client):
         print("rc: "+str(rc))
 
     def on_message(self, mqttc, obj, msg):
-        print(msg.topic+" "+str(msg.qos)+" "+str(msg.payload))
+        # print(msg.topic+" "+str(msg.qos)+" "+str(msg.payload))
+        pass
 
     def on_publish(self, mqttc, obj, mid):
-        print("mid: "+str(mid))
+        # print("mid: "+str(mid))
+        pass
 
     def on_subscribe(self, mqttc, obj, mid, granted_qos):
         print("Subscribed: "+str(mid)+" "+str(granted_qos))
@@ -92,7 +94,7 @@ conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 
 while True:
 
-    print('Hajra  hajra')
+    # print('Hajra  hajra')
     # print(time, threading.active_count())
     # data = ["ID","Hofok"]
     # for i in conf.tempSensors:
@@ -100,4 +102,4 @@ while True:
     #     #print(i.sysbus, " : ", i.temp)
     # table = AsciiTable(data)
     # print (table.table)
-    time.sleep(1)
+    time.sleep(10)
