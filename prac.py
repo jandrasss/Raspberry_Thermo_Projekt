@@ -32,6 +32,7 @@ class TemperatureSensors:
 
     def updateTemp(self):
 
+
         self.temp = self.sensor.get_temperature()
         print("friss", self.id, threading.active_count())
         threading.main_thread()
