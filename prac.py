@@ -20,6 +20,7 @@ class TemperatureSensors:
         thread = threading.Thread(target=self.updateTemp, args=())
         thread.daemon = True
         thread.start()
+        MyMQTTClass.subscribe(id)
 
     def getTemp(self):
         return self.sensor.get_temperature()
@@ -33,6 +34,7 @@ class TemperatureSensors:
             self.temp = self.sensor.get_temperature()
             print("friss", self.id, threading.active_count())
             threading.main_thread()
+            MyMQTTClass.publish(self.temp)
             time.sleep(2)
 
 class RelaySensors:
@@ -73,7 +75,7 @@ class MyMQTTClass(mqtt.Client):
         print("mid: "+str(mid))
 
     def on_subscribe(self, mqttc, obj, mid, granted_qos):
-        print("Subscribed: "+str(mid)+" "+str(granted_qos))
+        #print("Subscribed: "+str(mid)+" "+str(granted_qos))
 
     def on_log(self, mqttc, obj, level, string):
         print(string)
