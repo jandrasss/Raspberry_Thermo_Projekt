@@ -38,6 +38,7 @@ class TemperatureSensors:
             broker.publish(self.id, self.temp)
             time.sleep(4)
 
+
 class RelaySensors:
     def __init__(self,id, config):
         self.id = id
