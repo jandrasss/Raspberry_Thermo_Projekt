@@ -20,7 +20,7 @@ class TemperatureSensors:
         thread = threading.Thread(target=self.updateTemp, args=())
         thread.daemon = True
         thread.start()
-        MyMQTTClass.subscribe(self, self.id, 0)
+        broker.subscribe(self.id, 0)
 
     def getTemp(self):
         return self.sensor.get_temperature()
@@ -33,7 +33,7 @@ class TemperatureSensors:
         self.temp = self.sensor.get_temperature()
         print("friss", self.id, threading.active_count())
         threading.main_thread()
-        MyMQTTClass.publish(self.temp)
+        broker.publish(self.id, self.temp)
         time.sleep(2)
 
 class RelaySensors:
@@ -83,7 +83,8 @@ class MyMQTTClass(mqtt.Client):
 
         print("Success")
 
-MyMQTTClass().run()
+broker = MyMQTTClass()
+broker.run()
 conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 
 while True:
