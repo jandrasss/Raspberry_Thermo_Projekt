@@ -1,3 +1,4 @@
+# /usr/bin/python3
 # -*- coding: utf-8 -*-
 
 import paho.mqtt.client as mqtt
@@ -16,7 +17,8 @@ class TemperatureSensors:
     def __init__(self, id, config):
         self.id = id
         self.sysbus = config['sysbus']
-        #self.precision = 10
+        self.pozicio = config['pozicio']
+        # self.precision = 10
         self.sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, config['sysbus'][3:])
         self.temp = 0
         thread = threading.Thread(target=self.updateTemp, args=())
@@ -33,10 +35,10 @@ class TemperatureSensors:
     def updateTemp(self):
         while True:
             self.temp = self.sensor.get_temperature()
-            print("friss", self.id, threading.active_count())
+            # print("friss", self.id, threading.active_count())
             threading.main_thread()
             broker.publish(self.id, self.temp)
-            # time.sleep(4)
+            time.sleep(conf.defaultTempUpdateTime)
 
 
 class RelaySensors:
@@ -49,17 +51,41 @@ class Controller(object):
 
     def __init__(self,config):
         self.config = config
+        self.defaultTempUpdateTime = config['Config']['defaultTempUpdateTime']
+        self.boilerStartDifference = config['Config']['boilerStartDifference']
         self.tempSensors = [TemperatureSensors(x, y) for (x, y) in config['TemperatureSensors'].items()]
         #self.infraSensors = [RelaySensors(x, y) for (x, y) in config['RelaySensors'].items()]
 
+        self.boilerUpperIndex = 0
+        self.boilerLowerIndex = 0
+        self.boilerState = False
 
+        for i in range(0,self.tempSensors.__len__()):
+            if self.tempSensors[i].id == "Negyes":
+                self.boilerUpperIndex = i
+                print("Felső", i)
+            if self.tempSensors[i].id == "Otos":
+                self.boilerLowerIndex = i
+                print("Alsó", i)
 
+        t = threading.Thread(target=self.boilerStart, \
+                             args=(int(self.boilerUpperIndex), int(self.boilerLowerIndex), 2,), \
+                             daemon=True)
+        t.start()
 
+    def boilerStart(self, upperSensor, lowerSensor, difference):
+        while True:
+            if self.tempSensors[upperSensor].temp-self.tempSensors[lowerSensor].temp>difference and not self.boilerState:
+                print("Kazán indul")
+                self.boilerState = True
+                broker.publish("Kazan", "set.on")
+            elif self.tempSensors[upperSensor].temp-self.tempSensors[lowerSensor].temp <= difference and (self.boilerState):
+                print("Kazán stop")
+                self.boilerState = False
+                broker.publish("Kazan", "set.off")
 
-# for i in conf.infraSensors:
-#     print(i.id,": ", i.pin)
-# for i in conf.tempSensors:
-#     print(i.sysbus,": ", i.getTemp())
+            time.sleep(1)
+
 
 class MyMQTTClass(mqtt.Client):
 
@@ -89,18 +115,11 @@ class MyMQTTClass(mqtt.Client):
 
         print("Success")
 
+
 broker = MyMQTTClass()
 broker.run()
 conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 
 while True:
 
-    # print('Hajra  hajra')
-    # print(time, threading.active_count())
-    # data = ["ID","Hofok"]
-    # for i in conf.tempSensors:
-    #     data.append(i.sysbus,i.temp)
-    #     #print(i.sysbus, " : ", i.temp)
-    # table = AsciiTable(data)
-    # print (table.table)
-    time.sleep(10)
+    time.sleep(2)

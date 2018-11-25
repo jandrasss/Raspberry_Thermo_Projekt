@@ -1,25 +1,42 @@
 {
+  "Config" : {
+    "defaultTempUpdateTime" : 1,
+    "boilerStartDifference" : 2
+
+  },
   "TemperatureSensors": {
     "Egyes": {
-      " id": "Egyes",
-      "sysbus": "28-01131faf14b9"
+      "id": "Egyes",
+      "sysbus": "28-01131faf14b9",
+      "pozicio" : "Tartaly_kilépő"
     },
     "Kettes": {
       "id": "Kettes",
-      "sysbus": "28-021317e674aa"
+      "sysbus": "28-021317e674aa",
+      "pozicio" : "Tartály_közép"
     },
     "Harmas": {
       "id:" : "Harmas",
-      "sysbus" : "28-021317e994aa"
+      "sysbus" : "28-021317e994aa",
+      "pozicio" : "Tartály_alsó"
     },
     "Negyes": {
       "id" : "Negyes",
-      "sysbus" : "28-0213186f26aa"
+      "sysbus" : "28-0213186f26aa",
+      "pozicio" : "Kazán_kilépő"
     },
     "Otos":
     {
       "id": "Otos",
-      "sysbus" : "28-0213187987aa"
+      "sysbus" : "28-0213187987aa",
+      "pozicio" : "Kazán_alsó"
     }
+  },
+  "Relays":{
+      "id" : "Kazan",
+      "out" : "Negyes",
+      "in" : "Otos",
+      "pin" : 19
   }
+
 }
