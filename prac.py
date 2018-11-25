@@ -35,7 +35,7 @@ class TemperatureSensors:
         self.temp = self.sensor.get_temperature()
         print("friss", self.id, threading.active_count())
         threading.main_thread()
-        broker.publish(self.id, self.temp)
+        broker.publish(self.id, self.temp.)
         time.sleep(2)
 
 class RelaySensors:
