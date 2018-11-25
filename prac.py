@@ -3,7 +3,7 @@ import time
 import json
 import threading
 import sys
-from terminaltables import AsciiTable
+
 import queue
 import RPi.GPIO as GPIO
 import twisted
@@ -93,11 +93,11 @@ MyMQTTClass().run()
 while True:
 
     print('Hajra  hajra')
-    print(time, threading.active_count())
-    data = ["ID","Hofok"]
-    for i in conf.tempSensors:
-        data.append(i.sysbus,i.temp)
-        #print(i.sysbus, " : ", i.temp)
-    table = AsciiTable(data)
-    print (table.table)
+    # print(time, threading.active_count())
+    # data = ["ID","Hofok"]
+    # for i in conf.tempSensors:
+    #     data.append(i.sysbus,i.temp)
+    #     #print(i.sysbus, " : ", i.temp)
+    # table = AsciiTable(data)
+    # print (table.table)
     time.sleep(1)
