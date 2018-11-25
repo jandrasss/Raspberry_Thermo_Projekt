@@ -79,7 +79,8 @@ class MyMQTTClass(mqtt.Client):
 
 
     def on_log(self, mqttc, obj, level, string):
-        print(string)
+        # print(string)
+        pass
 
     def run(self):
         self.connect("10.0.0.12", 1883, 60)
