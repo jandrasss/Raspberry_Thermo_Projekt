@@ -20,7 +20,7 @@ class TemperatureSensors:
         thread = threading.Thread(target=self.updateTemp, args=())
         thread.daemon = True
         thread.start()
-        MyMQTTClass.subscribe(id)
+        MyMQTTClass.subscribe(topic=self.id)
 
     def getTemp(self):
         return self.sensor.get_temperature()
