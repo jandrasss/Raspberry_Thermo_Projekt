@@ -31,12 +31,12 @@ class TemperatureSensors:
         return "Success"
 
     def updateTemp(self):
-
-        self.temp = self.sensor.get_temperature()
-        print("friss", self.id, threading.active_count())
-        threading.main_thread()
-        broker.publish(self.id, self.temp)
-        time.sleep(4)
+        while True:
+            self.temp = self.sensor.get_temperature()
+            print("friss", self.id, threading.active_count())
+            threading.main_thread()
+            broker.publish(self.id, self.temp)
+            time.sleep(4)
 
 class RelaySensors:
     def __init__(self,id, config):
