@@ -2,6 +2,8 @@ import paho.mqtt.client as mqtt
 import time
 import json
 import threading
+import sys
+from terminaltables import AsciiTable
 import queue
 import RPi.GPIO as GPIO
 import twisted
@@ -15,11 +17,9 @@ class TemperatureSensors:
         #self.precision = 10
         self.sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, config['sysbus'][3:])
         self.temp = 0
-        thread = threading.Thread(target=self.run, args=())
+        thread = threading.Thread(target=self.updateTemp, args=())
         thread.daemon = True
         thread.start()
-
-        #self.sensor.set_precision(self.precision)
 
     def getTemp(self):
         return self.sensor.get_temperature()
@@ -27,8 +27,7 @@ class TemperatureSensors:
     def writeLog(self):
         return "Success"
 
-    #def updateTemp(self):
-    def run(self):
+    def updateTemp(self):
         event.wait()
         while event.is_set():
             self.temp = self.sensor.get_temperature()
@@ -48,6 +47,7 @@ class Controller(object):
         self.config = config
         self.tempSensors = [TemperatureSensors(x, y) for (x, y) in config['TemperatureSensors'].items()]
         #self.infraSensors = [RelaySensors(x, y) for (x, y) in config['RelaySensors'].items()]
+
 
 def flag():
     time.sleep(2)
@@ -87,13 +87,15 @@ class MyMQTTClass(mqtt.Client):
 
 MyMQTTClass().run()
 
-# for sensor in W1ThermSensor.get_available_sensors():
-#     print("Sensor %s has temperature %.2f" % (sensor.id, sensor.get_temperature()))
-flag()
+
 while True:
 
     print('Hajra  hajra')
     print(time, threading.active_count())
+    data = ["ID","Hofok"]
     for i in conf.tempSensors:
-        print(i.sysbus, " : ", i.temp)
+        data.append(i.sysbus,i.temp)
+        #print(i.sysbus, " : ", i.temp)
+    table = AsciiTable(data)
+    print (table.table)
     time.sleep(1)
