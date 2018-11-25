@@ -22,7 +22,7 @@ class TemperatureSensors:
         thread = threading.Thread(target=self.updateTemp, args=())
         thread.daemon = True
         thread.start()
-        broker.subscribe(self.id, 0)
+        broker.subscribe(self.id)
 
     def getTemp(self):
         return self.sensor.get_temperature()
@@ -35,8 +35,8 @@ class TemperatureSensors:
         self.temp = self.sensor.get_temperature()
         print("friss", self.id, threading.active_count())
         threading.main_thread()
-        broker.publish(self.id, self.temp.)
-        time.sleep(2)
+        broker.publish(self.id, self.temp)
+        time.sleep(4)
 
 class RelaySensors:
     def __init__(self,id, config):
