@@ -76,6 +76,7 @@ class MyMQTTClass(mqtt.Client):
 
     def on_subscribe(self, mqttc, obj, mid, granted_qos):
         #print("Subscribed: "+str(mid)+" "+str(granted_qos))
+        pass
 
     def on_log(self, mqttc, obj, level, string):
         print(string)
