@@ -1,6 +1,6 @@
 {
   "Config" : {
-    "defaultTempUpdateTime" : 1,
+    "defaultTempUpdateTime" : 3,
     "boilerStartDifference" : 2
 
   },

@@ -18,20 +18,35 @@ class TemperatureSensors:
         self.id = id
         self.sysbus = config['sysbus']
         self.pozicio = config['pozicio']
-        # self.precision = 10
-        self.sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, config['sysbus'][3:])
         self.temp = 0
         self.thread = threading.Thread(name=self.id, target=self.updateTemp, args=(), daemon=True)
-        # TODO: Ellenőrizni, hogy futnak e a beolvasási szálak.
+        self.t = threading.Thread(target=self.checkThread, args=(config,), daemon=True)
+        self.t.start()
         broker.subscribe(self.id)
 
-    def checkThread(self):
-        if not self.thread.isAlive():
+    def initSensor(self, config1):
+        sensor1 = False
+        while sensor1 is False:
             try:
-                self.thread.start()
-                print("%s folyamat elindítva" % self.id)
+                self.sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, config1['sysbus'][3:])
             except:
-                print ("Nem sikerült elindítani a beolvasási folyamatot")
+                print('%s inicializálása sikertelen 5 másodperc múlva újrapróbálom' % self.id)
+                time.sleep(5)
+            else:
+                sensor1 = True
+                time.sleep(2)
+
+    def checkThread(self,config):
+        try:
+            self.sensor
+        except:
+            self.initSensor(config)
+        if not self.thread.isAlive():
+            self.startThread()
+
+    def startThread(self):
+        self.thread.start()
+        print("%s folyamat elindítva" % self.id)
 
     def getTemp(self):
         return self.sensor.get_temperature()
@@ -41,11 +56,16 @@ class TemperatureSensors:
 
     def updateTemp(self):
         while True:
-            self.temp = self.sensor.get_temperature()
-            # print("friss", self.id, threading.active_count())
-            threading.main_thread()
-            broker.publish(self.id, self.temp)
-            time.sleep(conf.defaultTempUpdateTime)
+            try:
+                self.temp = self.sensor.get_temperature()
+
+            except:
+                pass
+
+            finally:
+                threading.main_thread()
+                broker.publish(self.id, self.temp)
+                time.sleep(conf.defaultTempUpdateTime)
 
 
 class RelaySensors:
@@ -89,7 +109,7 @@ class Controller(object):
                 self.boilerState = False
                 broker.publish("Kazan", "set.off")
 
-            time.sleep(1)
+            time.sleep(5)
 
 
 class MyMQTTClass(mqtt.Client):
@@ -126,6 +146,6 @@ broker.run()
 conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 
 while True:
-    for i in conf.tempSensors:
-        i.checkThread()
-    time.sleep(10)
+     for i in conf.tempSensors:
+         i.checkThread(conf.config)
+     time.sleep(60)
