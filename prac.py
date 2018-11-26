@@ -21,10 +21,17 @@ class TemperatureSensors:
         # self.precision = 10
         self.sensor = W1ThermSensor(W1ThermSensor.THERM_SENSOR_DS18B20, config['sysbus'][3:])
         self.temp = 0
-        thread = threading.Thread(target=self.updateTemp, args=())
-        thread.daemon = True
-        thread.start()
+        self.thread = threading.Thread(name=self.id, target=self.updateTemp, args=(), daemon=True)
+        # TODO: Ellenőrizni, hogy futnak e a beolvasási szálak.
         broker.subscribe(self.id)
+
+    def checkThread(self):
+        if not self.thread.isAlive():
+            try:
+                self.thread.start()
+                print("%s folyamat elindítva" % self.id)
+            except:
+                print ("Nem sikerült elindítani a beolvasási folyamatot")
 
     def getTemp(self):
         return self.sensor.get_temperature()
@@ -119,5 +126,6 @@ broker.run()
 conf = Controller(json.load(open("set.json",'r',encoding='utf-8')))
 
 while True:
-
-    time.sleep(2)
+    for i in conf.tempSensors:
+        i.checkThread()
+    time.sleep(10)
